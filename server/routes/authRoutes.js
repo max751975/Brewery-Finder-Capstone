@@ -60,7 +60,7 @@ router.post("/login", async (req, res, next) => {
       if ((await bcrypt.compare(password, user.password)) === true) {
         let token = jwt.sign(user, SECRET_KEY);
 
-        return res.json({ message: "Logged in successfully", token });
+        return res.json({ message: "Logged in successfully", token, user });
       }
     }
     throw new ExpressError("Invalid username/password", 400);

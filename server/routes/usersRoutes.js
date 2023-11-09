@@ -7,7 +7,7 @@ const User = require("../models/user");
 const { ensureLoggedIn, ensureIsAdmin } = require("../middleware/auth");
 
 // get all users with User class instances
-router.get("/", ensureIsAdmin, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const users = await User.getAll();
     return res.json(users);
@@ -85,10 +85,13 @@ router.delete("/:id", async (req, res, next) => {
 
 // get a list of breweries b for user with current id
 
-router.get("/:id/breweries", ensureLoggedIn, async (req, res, next) => {
+router.get("/:id/breweries", async (req, res, next) => {
   try {
+    console.log("---------------------------------------------------------");
+    console.log("user/:id/breweries  request.body: ", req.body);
+    console.log("---------------------------------------------------------");
     const results = await db.query(
-      `SELECT u.id, u.username, b.name as brewery_name, b.location
+      `SELECT u.id, u.username, b.id as brewery_id, b.name as brewery_name, b.location
         FROM users AS u
         LEFT JOIN users_breweries AS ub
         ON u.id = ub.user_id
@@ -101,9 +104,11 @@ router.get("/:id/breweries", ensureLoggedIn, async (req, res, next) => {
     // console.log(req.user);
     // console.log(results.rows);
     const { id, username } = results.rows[0];
+    console.log(results.rows);
     let breweries = [];
     if (results.rows[0].brewery_name) {
       breweries = results.rows.map((r) => ({
+        ["brewery_id"]: r.brewery_id,
         ["brewery_name"]: r.brewery_name,
         ["location"]: r.location,
       }));
@@ -111,7 +116,7 @@ router.get("/:id/breweries", ensureLoggedIn, async (req, res, next) => {
 
     return res.send({ id, username, breweries });
   } catch (error) {
-    return next(error);
+    return next(new ExpressError("You have to be logged in", 401));
   }
 });
 
@@ -131,7 +136,7 @@ router.post("/:id/breweries", ensureLoggedIn, async (req, res, next) => {
 
     return res.status(201).json(newBrewery.rows);
   } catch (error) {
-    return next(error);
+    return next(new ExpressError("You are not authorised", 401));
   }
 });
 

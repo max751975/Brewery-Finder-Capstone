@@ -1,0 +1,12 @@
+.card {
+  max-width: 800px;
+  margin: 3rem auto;
+}
+.list-group {
+  /* max-width: fit-content; */
+  text-align: left;
+}
+.card-img {
+  margin: 10px;
+  width: 15vw;
+}

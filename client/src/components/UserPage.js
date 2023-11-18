@@ -8,28 +8,34 @@ const UserPage = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div class="card mb-3">
-        <div class="row g-0">
-          <div class="col-md-4">
+      <div className="UserPage-card card mb-3">
+        <div className="row g-0">
+          <div className="col-md-4">
             <img
               src="./images/brewery-background_1.jpg"
               className="card-img"
               alt="..."
             />
           </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Profile</h5>
-              <ul className="list-group list-group-flush">
+          <div className="col-md-8">
+            <div className="card-body">
+              <h5 className="card-title">Profile</h5>
+              <ul className="UserPage-list-group list-group list-group-flush">
                 <li className="list-group-item">
-                  First Name: {auth?.user?.first_name}
+                  <b>First Name: </b>
+                  {auth?.user?.first_name}
                 </li>
                 <li className="list-group-item">
-                  Last Name: {auth?.user?.last_name}
+                  <b>Last Name:</b> {auth?.user?.last_name}
                 </li>
-                <li className="list-group-item">E-mail: {auth?.user?.email}</li>
                 <li className="list-group-item">
-                  Location: {auth?.user?.location}
+                  <b>E-mail:</b> {auth?.user?.email}
+                </li>
+                <li className="list-group-item">
+                  <b>Location:</b> {auth?.user?.location}
+                </li>
+                <li className="list-group-item">
+                  <b>{auth?.user?.is_admin ? "Admin" : ""}</b>
                 </li>
               </ul>
             </div>
@@ -50,7 +56,7 @@ const UserPage = () => {
       <div>
         <button
           className="btn btn-large btn-primary"
-          onClick={() => navigate("/breweries")}
+          onClick={() => navigate("/user/breweries")}
         >
           Breweries
         </button>

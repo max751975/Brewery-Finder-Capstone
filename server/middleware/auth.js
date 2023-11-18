@@ -4,12 +4,20 @@ const ExpressError = require("../expressError");
 
 function authenticateJWT(req, res, next) {
   try {
-    console.log("autenthicateJWT");
-    console.log("req.body._token:::::::::::::::::::", req.body._token);
+    console.log(
+      "autenthicateJWT::::::::::::::::::::::::::::::::::::::::::::::::::"
+    );
+    console.log(
+      "autenthicateJWT REQ:::::::::::::::::::::",
+      req.headers.authorization.split(" ")[1]
+    );
+    const token = req.headers.authorization.split(" ")[1];
+    // console.log("req.body._token:::::::::::::::::::", req.body._token);
+    console.log("req.headers.authorization.token:::::::::::::::::::", token);
     console.log("---------------------------------------------------------");
-    const payload = jwt.verify(req.body._token, SECRET_KEY);
-    res.user = payload;
-    console.log("REQ.USER:::::::::::::::::::::::::::::::", res.user);
+    const payload = jwt.verify(token, SECRET_KEY);
+    req.user = payload;
+    console.log("REQ.USER:::::::::::::::::::::::::::::::", req.user);
     console.log("---------------------------------------------------------");
     return next();
   } catch (error) {

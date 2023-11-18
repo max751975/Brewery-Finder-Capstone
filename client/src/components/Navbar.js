@@ -2,15 +2,16 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
+import "../CSS/Navbar.css";
 
 const Navbar = () => {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar navbar-expand-lg bg-light">
-      <div className="container-fluid">
-        <NavLink to="/" className="navbar-brand">
+    <nav className="Navbar-navbar navbar navbar-expand-lg">
+      <div className="Navbar-container container-fluid">
+        <NavLink to={auth.user ? "/user" : "/"} className="navbar-brand">
           <img
             src="./images/beer_logo.svg"
             alt="Logo"
@@ -34,7 +35,7 @@ const Navbar = () => {
                   Admin Dashboard
                 </NavLink>
               ) : (
-                <NavLink to="/breweries" className="nav-link">
+                <NavLink to="/user/breweries" className="nav-link">
                   Breweries
                 </NavLink>
               )}

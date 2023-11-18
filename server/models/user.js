@@ -132,6 +132,7 @@ class User {
         403
       );
     }
+    if (!newIsAdmin) newIsAdmin = false;
     //  add new user to database, return instance of User
     const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_WORK_FACTOR);
     const result = await db.query(

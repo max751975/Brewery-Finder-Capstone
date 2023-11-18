@@ -38,10 +38,6 @@ const LoginForm = () => {
     try {
       const response = await axios.post(LOGIN_URL, formData);
 
-      // axios
-      //   .post("http://localhost:5000/auth/login", formData)
-      //   .then((response) => console.log(response.data.token));
-
       const token = response.data.token;
       const user = response.data.user;
       const pwd = user.password;

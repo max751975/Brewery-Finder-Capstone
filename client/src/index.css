@@ -27,8 +27,15 @@ html {
 
 body {
   min-height: 100vh;
-  background-color: dodgerblue;
+  /* background-color: dodgerblue; */
+  background-image: url("./images/brewery-print-shoppe-background-keg-beer.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(77, 82, 86, 0.5);
+  background-blend-mode: lighten;
 }
+
 a {
   text-decoration: none;
   color: white;

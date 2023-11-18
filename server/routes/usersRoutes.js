@@ -7,7 +7,7 @@ const User = require("../models/user");
 const { ensureLoggedIn, ensureIsAdmin } = require("../middleware/auth");
 
 // get all users with User class instances
-router.get("/", async (req, res, next) => {
+router.get("/", ensureIsAdmin, async (req, res, next) => {
   try {
     const users = await User.getAll();
     return res.json(users);
@@ -85,10 +85,11 @@ router.delete("/:id", async (req, res, next) => {
 
 // get a list of breweries b for user with current id
 
-router.get("/:id/breweries", async (req, res, next) => {
+router.get("/:id/breweries", ensureLoggedIn, async (req, res, next) => {
   try {
     console.log("---------------------------------------------------------");
     console.log("user/:id/breweries  request.body: ", req.body);
+    console.log("user/:id/breweries  request.headers: ", req.headers);
     console.log("---------------------------------------------------------");
     const results = await db.query(
       `SELECT u.id, u.username, b.id as brewery_id, b.name as brewery_name, b.location

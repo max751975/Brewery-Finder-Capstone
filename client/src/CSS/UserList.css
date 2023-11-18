@@ -1,13 +1,9 @@
-.BreweryList-title {
+.UserList-title {
   color: antiquewhite;
 }
 
-h2 {
-  margin-top: 2rem;
-}
-
-.BreweryList-container {
-  margin: 3em auto;
+.UserList-container {
+  margin: 1em auto;
   max-width: 900px;
 }
 
@@ -16,10 +12,12 @@ h2 {
   border: 0;
 }
 
-.BreweryList-list-group-item {
+.UserList-list-group-item {
   background-color: rgba(244, 230, 175, 0.698);
+  border: 1px solid black;
+  margin-top: 2px;
 }
 
-.BreweryList-name:hover {
+.UserList-name:hover {
   cursor: pointer;
 }

@@ -1,9 +1,10 @@
-.card {
-  max-width: 800px;
+.UserPage-card {
+  max-width: 900px;
   margin: 3rem auto;
+  background-color: rgba(244, 230, 175, 0.496);
 }
-.list-group {
-  /* max-width: fit-content; */
+.UserPage-list-group {
+  max-width: 100%;
   text-align: left;
 }
 .card-img {

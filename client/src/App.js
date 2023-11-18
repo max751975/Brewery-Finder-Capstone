@@ -9,6 +9,10 @@ import AdminDash from "./components/AdminDash";
 import UserPage from "./components/UserPage";
 
 import BreweryList from "./components/BreweryList";
+import BreweriesList from "./breweries/BreweriesList";
+import Brewery from "./components/Brewery";
+import BreweryDetail from "./breweries/BreweryDetail";
+import UserList from "./users/UserList";
 
 function App() {
   return (
@@ -21,7 +25,15 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="admin" element={<AdminDash />}></Route>
           <Route path="user" element={<UserPage />}></Route>
-          <Route path="breweries" element={<BreweryList />}></Route>
+          <Route path="user/breweries" element={<BreweryList />}></Route>
+          <Route path="breweries" element={<BreweriesList />}></Route>
+          <Route path="users" element={<UserList />}></Route>
+          <Route
+            path="breweries/:breweryId"
+            element={<BreweryDetail />}
+          ></Route>
+
+          <Route path="brewery" element={<Brewery />}></Route>
         </Route>
       </Routes>
     </>

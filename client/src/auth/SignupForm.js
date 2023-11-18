@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
 // import { useHistory } from "react-router-dom";
 // import Alert from "../common/Alert";
 
@@ -13,17 +15,29 @@ import React, { useState } from "react";
  * Routed as /signup
  */
 
-function SignupForm({ signup }) {
+function SignupForm() {
   // const history = useHistory();
-  const [formData, setFormData] = useState({
+
+  const REGISTER_URL = "/auth/register";
+  const initialState = {
     username: "",
     password: "",
     firstName: "",
     lastName: "",
     email: "",
     location: "",
+  };
+  const [formData, setFormData] = useState({
+    initialState,
   });
   const [formErrors, setFormErrors] = useState([]);
+
+  const navigate = useNavigate();
+  const userRef = useRef();
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
 
   console.debug(
     "SignupForm",
@@ -36,19 +50,32 @@ function SignupForm({ signup }) {
   );
 
   /** Handle form submit:
-   *
-   * Calls login func prop and, if successful, redirect to /companies.
+   
    */
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-    // let result = await signup(formData);
+
     console.log(formData);
-    // if (result.success) {
-    //   history.push("/companies");
-    // } else {
-    //   setFormErrors(result.errors);
-    // }
+    navigate("/login");
+  }
+  async function handleSubmit(evt) {
+    evt.preventDefault();
+
+    try {
+      const response = await axios.post(REGISTER_URL, formData);
+      const user = response.data.user;
+      console.log(JSON.stringify(response.status));
+      console.log(user);
+
+      navigate("/login");
+      setFormData(initialState);
+    } catch (err) {
+      if (!err?.response) {
+        console.log("No Server Response");
+      }
+      console.log(err);
+    }
   }
 
   /** Update form data field */
@@ -65,28 +92,48 @@ function SignupForm({ signup }) {
           <div className="card-body">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Username</label>
+                <label>Username*</label>
                 <input
+                  type="text"
+                  id="username"
                   name="username"
+                  ref={userRef}
                   className="form-control"
                   value={formData.username}
                   onChange={handleChange}
+                  autoComplete="off"
+                  required
                 />
               </div>
               <div className="form-group">
-                <label>Password</label>
+                <label>Password*</label>
                 <input
                   type="password"
                   name="password"
                   className="form-control"
                   value={formData.password}
                   onChange={handleChange}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Email*</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
                 />
               </div>
 
               <div className="form-group">
                 <label>First name</label>
                 <input
+                  type="text"
                   name="firstName"
                   className="form-control"
                   value={formData.firstName}
@@ -96,22 +143,14 @@ function SignupForm({ signup }) {
               <div className="form-group">
                 <label>Last name</label>
                 <input
+                  type="text"
                   name="lastName"
                   className="form-control"
                   value={formData.lastName}
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
+
               <div className="form-group">
                 <label>Location</label>
                 <input

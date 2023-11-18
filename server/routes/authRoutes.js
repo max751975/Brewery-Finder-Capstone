@@ -5,12 +5,13 @@ const db = require("../db");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR, SECRET_KEY } = require("../config");
 const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
 router.get("/", (req, res, next) => {
   res.send("AUTH IS CONNECTED!!!");
 });
 
-// sign in new user with password hashing
+// create new user
 router.post("/register", async (req, res, next) => {
   try {
     const {
@@ -23,26 +24,55 @@ router.post("/register", async (req, res, next) => {
       isAdmin,
     } = req.body;
 
-    if (!username || !password) {
-      return next(new ExpressError("Username and password required", 400));
-    }
-    //  hash password
-    const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
-    // save to db
-    const results = await db.query(
-      `
-    INSERT INTO users (username, password, first_name, last_name, email, location, is_admin)
-    VALUES ($1,$2,$3,$4,$5,$6,$7)
-    RETURNING id, username, password, is_admin`,
-      [username, hashedPassword, firstName, lastName, email, location, isAdmin]
+    const user = await User.create(
+      username,
+      password,
+      firstName,
+      lastName,
+      email,
+      location,
+      isAdmin
     );
-    return res.json(results.rows[0]);
+    console.log(user);
+
+    return res.status(201).json(user);
   } catch (error) {
-    if (error.code === "23505") {
-      return next(new ExpressError("Username taken. Try another one!", 400));
-    }
+    return next(error);
   }
 });
+// // sign in new user with password hashing
+// router.post("/register", async (req, res, next) => {
+//   try {
+//     const {
+//       username,
+//       password,
+//       firstName,
+//       lastName,
+//       email,
+//       location,
+//       isAdmin,
+//     } = req.body;
+
+//     if (!username || !password) {
+//       return next(new ExpressError("Username and password required", 400));
+//     }
+//     //  hash password
+//     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
+//     // save to db
+//     const results = await db.query(
+//       `
+//     INSERT INTO users (username, password, first_name, last_name, email, location, is_admin)
+//     VALUES ($1,$2,$3,$4,$5,$6,$7)
+//     RETURNING id, username, password, is_admin`,
+//       [username, hashedPassword, firstName, lastName, email, location, isAdmin]
+//     );
+//     return res.json(results.rows[0]);
+//   } catch (error) {
+//     if (error.code === "23505") {
+//       return next(new ExpressError("Username taken. Try another one!", 400));
+//     }
+//   }
+// });
 
 // login user and returns JWT on success
 router.post("/login", async (req, res, next) => {

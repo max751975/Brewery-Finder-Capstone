@@ -60,7 +60,8 @@ class User {
                 first_name AS "firstName", 
                 last_name AS "lastName", 
                 email, location, 
-                is_admin AS "isAdmin"  FROM users`
+                is_admin AS "isAdmin"  FROM users 
+                ORDER BY id`
     );
 
     const users = results.rows.map(

@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import Alert from "../common/Alert";
 
 const LOGIN_URL = "/auth/login";
 
@@ -12,9 +13,10 @@ const LoginForm = () => {
     password: "",
   };
 
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const [formData, setFormData] = useState(initialState);
+  const [formErrors, setFormErrors] = useState([]);
 
   const userRef = useRef();
   const errFef = useRef();
@@ -46,15 +48,23 @@ const LoginForm = () => {
       // console.log(user);
       // console.log(token);
       // console.log(pwd);
-      setAuth({ user, pwd, token });
-      // console.log("auth:", auth);
+      setAuth({ user, token });
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", JSON.stringify(token));
       navigate("/user");
       setFormData(initialState);
     } catch (err) {
-      if (!err?.response) {
-        console.log("No Server Response");
+      // if (!err?.response) {
+      //   console.log("No Server Response");
+      // }
+      // console.log(err);
+      setFormErrors(err);
+      console.debug("formErrors:::::::::::::::::::", formErrors.message);
+      if (formErrors.response.status === 400) {
+        alert(`${formErrors.message}: wrong username/password`);
       }
-      console.log(err);
+      setFormData(initialState);
+      return;
     }
   }
 
@@ -99,11 +109,12 @@ const LoginForm = () => {
                 />
               </div>
 
-              {/* {formErrors.length ? (
-                <Alert type="danger" messages={formErrors} />
-              ) : null} */}
+              {formErrors?.length ? (
+                <Alert type="danger" messages={formErrors.message} />
+              ) : null}
 
               <button
+                type="submit"
                 className="btn btn-primary float-right mt-3"
                 onSubmit={handleSubmit}
               >

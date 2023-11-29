@@ -15,6 +15,7 @@ import "../CSS/UserList.css";
 const UserList = () => {
   const [users, setUsers] = useState();
   const { auth } = useAuth();
+
   const navigate = useNavigate();
   console.log("From UserList---------------------------------------------");
   console.log("auth::::::::::::::::::::::::::: ", auth);
@@ -47,25 +48,50 @@ const UserList = () => {
     <>
       <h3 className="UserList-title title mt-2">All users</h3>
 
-      <div className="UserList-container container">
+      <div className="UserList-container container" id="table-container">
+        <div className="d-flex justify-content-end m-2">
+          <Link to="/users/new" className="btn btn-success btn-sm mt-2">
+            + Add User
+          </Link>
+        </div>
         {users ? (
-          <ul className="list-group">
-            {users.map((u) => (
-              <Link className="UserList" to={`/users/${u.id}`}>
-                <li
-                  className="UserList-list-group-item list-group-item d-flex align-items-center"
-                  key={u.id}
-                  id={u.id}
-                >
-                  <div className="UserList-name ms-2 me-auto">
-                    <div>
-                      <b>{u.username}</b>/ {u.firstName} {u.lastName}
-                    </div>
-                  </div>
-                </li>
-              </Link>
-            ))}
-          </ul>
+          <table className="UserList-list-group table table-sm table-striped table-hover ">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th data-align="left">Username</th>
+                <th data-align="left">First Name</th>
+                <th data-align="left" data-formatter="shortingText">
+                  Last Name
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.id}</td>
+                  <td>{u.username}</td>
+                  <td>{u.firstName.slice(0, 15)}</td>
+                  <td>{u.lastName.slice(0, 15)}</td>
+                  <td>
+                    <button
+                      className="badge bg-secondary"
+                      onClick={() => navigate(`/users/${u.id}`)}
+                    >
+                      View
+                    </button>
+                    <button
+                      className="badge bg-success "
+                      onClick={() => navigate(`/users/${u.id}/update`)}
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : (
           //   "Loading..."
           <LoadingSpinner />

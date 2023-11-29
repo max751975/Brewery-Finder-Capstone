@@ -9,7 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="Navbar-navbar navbar navbar-expand-lg">
+    <nav className="Navbar-navbar navbar sticky-top navbar-expand-lg">
       <div className="Navbar-container container-fluid">
         <NavLink to={auth.user ? "/user" : "/"} className="navbar-brand">
           <img
@@ -25,7 +25,7 @@ const Navbar = () => {
         {auth.user ? (
           <ul className="nav justify-content-end">
             <li className="nav-item">
-              <NavLink to="/user" className="nav-link">
+              <NavLink to={`/users/${auth?.user?.id}`} className="nav-link">
                 Welcome {auth?.user?.first_name}!
               </NavLink>
             </li>
@@ -35,7 +35,10 @@ const Navbar = () => {
                   Admin Dashboard
                 </NavLink>
               ) : (
-                <NavLink to="/user/breweries" className="nav-link">
+                <NavLink
+                  to={`/users/${auth?.user?.id}/breweries`}
+                  className="nav-link"
+                >
                   Breweries
                 </NavLink>
               )}
@@ -45,6 +48,8 @@ const Navbar = () => {
                 to="/"
                 onClick={() => {
                   setAuth({});
+                  localStorage.removeItem("user");
+                  localStorage.removeItem("token");
                   navigate("/");
                 }}
                 className="nav-link"

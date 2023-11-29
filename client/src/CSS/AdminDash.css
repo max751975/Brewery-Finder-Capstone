@@ -18,9 +18,10 @@ h1 {
 } */
 
 .AdminDash-card {
-  max-width: 600px;
+  max-width: 900px;
   margin: 3rem auto;
-  background-color: rgba(244, 230, 175, 0.698);
+  /* background-color: rgba(244, 230, 175, 0.698); */
+  background-color: antiquewhite;
   border-radius: 10px;
   color: black;
 }

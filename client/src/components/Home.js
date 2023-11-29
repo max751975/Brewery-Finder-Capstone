@@ -1,26 +1,114 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import "../CSS/Home.css";
+
+import axios from "axios";
+import BreweryModal from "./BreweryModal";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
-  const logout = async () => {
-    setAuth({});
-    navigate("/login");
-  };
+  const [data, setData] = useState(null);
+  const [zip, setZip] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [currentBrewery, setCurrentBrewery] = useState(null);
+  const [didFind, setDidFind] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = JSON.parse(localStorage.getItem("token"));
+
+  useEffect(() => {
+    setAuth({ user, token });
+  }, []);
+  console.log("Home::::::::::: auth:", auth);
+  if (auth.user) {
+    navigate("/user");
+  }
+
+  async function handleSubmit(evt) {
+    evt.preventDefault();
+
+    try {
+      const response = await axios.get(
+        `https://api.openbrewerydb.org/v1/breweries?by_postal=${zip}&per_page=10`
+      );
+      console.log(response.data);
+      setData(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
       <h1 className="header mt-3">Welcome to Brewery Finder</h1>
-      <div className="container mt-5">
-        <Link to="/login">Login Page</Link>
-        <br />
-        <Link to="/register">Sign Up Page</Link>
-        <div>
-          <button className="btn btn-sm btn-info mt-3" onClick={logout}>
-            Sign Out
+      <div className="Home-finder-container container">
+        <h3>Looking for breweries in your area?</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="Home-form-group form-group">
+            <label htmlFor="zip">Enter your zip-code</label>
+            <input
+              type="text"
+              id="zip"
+              name="zip"
+              className="Home-form-control form-control"
+              value={zip}
+              onChange={(e) => setZip(e.target.value)}
+              autoComplete="off"
+              required
+            />
+          </div>
+          <button className="btn btn-success mt-2" onSubmit={handleSubmit}>
+            Find Breweries
           </button>
+        </form>
+        {data?.length ? (
+          <table className="Home-find-table table table-striped table-hover ">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location</th>
+
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((d) => (
+                <tr key={d.id}>
+                  <td>{d.name}</td>
+                  <td>{d.address_1}</td>
+
+                  <td>
+                    <button
+                      className="Home-modal-link badge bg-info"
+                      onClick={() => {
+                        setOpenModal(true);
+                        setCurrentBrewery(d);
+                      }}
+                    >
+                      View
+                    </button>
+                    {openModal && (
+                      <BreweryModal
+                        closeModal={setOpenModal}
+                        brewery={currentBrewery}
+                      />
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          didFind && <h4>No breweries to show. Try another location</h4>
+        )}
+        <div className="Home-links container mt-5">
+          <h3>Need more?.. </h3>
+          <Link to="/login">Login</Link>
+          <br />
+          <Link to="/register">Sign Up</Link>
         </div>
       </div>
     </>

@@ -16,10 +16,10 @@ const AdminDash = () => {
           <h2>Links</h2>
           <ul className="AdminDash-list-group list-group">
             <li className="list-group-item">
-              <Link to="/users">Go to the Users page</Link>
+              <Link to="/users">Users page</Link>
             </li>
             <li className="list-group-item">
-              <Link to="/breweries">Go to the Breweries page</Link>
+              <Link to="/breweries">Breweries page</Link>
             </li>
           </ul>
         </div>

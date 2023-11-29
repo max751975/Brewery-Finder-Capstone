@@ -9,7 +9,8 @@ import BreweryCard from "./BreweryCard";
 import LoadingSpinner from "../common/LoadingSpinner";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "../CSS/BreweriesList.css";
 
 const BrweriesList = () => {
   const [breweries, setBreweries] = useState();
@@ -74,54 +75,51 @@ const BrweriesList = () => {
   //   );
   return (
     <>
-      <h3 className="BreweryList-title title mt-2">All breweries</h3>
+      <h3 className="BreweriesList-title title mt-2">All Breweries</h3>
 
-      <div className="BreweryList-container">
+      <div className="BreweriesList-container container" id="table-container">
+        {/* <div className="d-flex justify-content-end m-2">
+          <Link to="/breweries/new" className="btn btn-success btn-sm mt-2">
+            + Add Brewery
+          </Link>
+        </div> */}
         {breweries ? (
-          <ul className="list-group">
-            {breweries.map((b) => (
-              <>
-                <li
-                  className="BreweryList-list-group-item list-group-item d-flex align-items-center"
-                  key={b.id}
-                  id={b.id}
-                >
-                  <div className="BreweryList-name ms-2 me-auto">
-                    <div
-                      className="fw-bold"
-                      onClick={() =>
-                        navigate(`/brewery`, {
-                          state: {
-                            breweryId: b.id,
-                            breweryName: b.name,
-                            breweryLocation: b.location,
-                          },
-                        })
-                      }
+          <table className="BreweriesList-list-group table table-striped table-hover ">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {breweries.map((b) => (
+                <tr key={b.id}>
+                  <td>{b.id}</td>
+                  <td>{b.name}</td>
+                  <td>{b.location}</td>
+
+                  <td>
+                    <button
+                      className="badge bg-info"
+                      onClick={() => navigate(`/breweries/${b.id}`)}
                     >
-                      {b.name}
-                    </div>
-                    {b.location}
-                  </div>
-                  <button
-                    // onClick={() => alert(`You are editing ${b.brewery_name}`)}
-                    onClick={handleEdit}
-                    className="badge bg-success rounded-pill"
-                  >
-                    edit
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    className="badge bg-danger rounded-pill"
-                  >
-                    delete
-                  </button>
-                </li>
-              </>
-            ))}
-          </ul>
+                      View
+                    </button>
+                    <button
+                      className="badge bg-success"
+                      onClick={() => navigate(`/breweries/${b.id}/update`)}
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : (
-          //   "Loading..."
           <LoadingSpinner />
         )}
       </div>

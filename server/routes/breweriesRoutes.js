@@ -7,7 +7,7 @@ const { ensureIsAdmin } = require("../middleware/auth");
 // Get the list of all breweries, admin only route
 router.get("/", ensureIsAdmin, async (req, res, next) => {
   try {
-    const results = await db.query(`SELECT * FROM breweries`);
+    const results = await db.query(`SELECT * FROM breweries ORDER BY id`);
     return res.json(results.rows);
   } catch (error) {
     return next(error);

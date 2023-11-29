@@ -27,8 +27,9 @@ router.get("/:id", ensureLoggedIn, async (req, res, next) => {
   }
 });
 
-// create new user
-router.post("/", async (req, res, next) => {
+// create new user - only for admin
+
+router.post("/", ensureIsAdmin, async (req, res, next) => {
   try {
     const {
       username,
@@ -73,7 +74,7 @@ router.patch("/:id", async (req, res, next) => {
 });
 
 // delete user by id
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", ensureIsAdmin, async (req, res, next) => {
   try {
     let user = await User.getById(req.params.id);
     await user.remove();

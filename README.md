@@ -9,7 +9,9 @@ Keep a list of your favorite brweeries in the database with the option to update
 **Client:** React, CSS
 **Server:** Node, Express
 
-
+## API
+https://www.openbrewerydb.org/
+free API with no requirements
 ## 🚀 About Me
 I'm a full stack developer recently graduated from the Springboard online bootcamp.
 Technologies: HTML, CSS, Javascript, Node, Express, React, SQL, PstgreSQL, Python, Flask

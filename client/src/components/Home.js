@@ -21,7 +21,7 @@ const Home = () => {
 
   useEffect(() => {
     setAuth({ user, token });
-  }, []);
+  }, [setAuth, user, token]);
   console.log("Home::::::::::: auth:", auth);
   if (auth.user) {
     navigate("/user");
@@ -36,6 +36,7 @@ const Home = () => {
       );
       console.log(response.data);
       setData(response.data);
+      setDidFind(true);
     } catch (err) {
       console.log(err);
     }
@@ -64,46 +65,50 @@ const Home = () => {
             Find Breweries
           </button>
         </form>
-        {data?.length ? (
-          <table className="Home-find-table table table-striped table-hover ">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Location</th>
+        <div className="Home-table-container">
+          {data?.length ? (
+            <table className="Home-find-table table table-striped table-hover ">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Location</th>
 
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((d) => (
-                <tr key={d.id}>
-                  <td>{d.name}</td>
-                  <td>{d.address_1}</td>
-
-                  <td>
-                    <button
-                      className="Home-modal-link badge bg-info"
-                      onClick={() => {
-                        setOpenModal(true);
-                        setCurrentBrewery(d);
-                      }}
-                    >
-                      View
-                    </button>
-                    {openModal && (
-                      <BreweryModal
-                        closeModal={setOpenModal}
-                        brewery={currentBrewery}
-                      />
-                    )}
-                  </td>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          didFind && <h4>No breweries to show. Try another location</h4>
-        )}
+              </thead>
+              <tbody>
+                {data.map((d) => (
+                  <tr key={d.id}>
+                    <td>{d.name}</td>
+                    <td>{d.address_1}</td>
+
+                    <td>
+                      <button
+                        className="Home-modal-link badge bg-info"
+                        onClick={() => {
+                          setOpenModal(true);
+                          setCurrentBrewery(d);
+                        }}
+                      >
+                        View
+                      </button>
+                      {openModal && (
+                        <BreweryModal
+                          closeModal={setOpenModal}
+                          brewery={currentBrewery}
+                        />
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            didFind && (
+              <h5>Cannot find brewery in the area. Try another zip-code</h5>
+            )
+          )}
+        </div>
         <div className="Home-links container mt-5">
           <h3>Need more?.. </h3>
           <Link to="/login">Login</Link>

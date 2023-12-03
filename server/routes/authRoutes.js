@@ -37,7 +37,9 @@ router.post("/register", async (req, res, next) => {
 
     return res.status(201).json(user);
   } catch (error) {
-    return next(error);
+    if (error.code === "23505") {
+      return next(new ExpressError("Username taken. Try another one!", 400));
+    } else return next(error);
   }
 });
 // // sign in new user with password hashing

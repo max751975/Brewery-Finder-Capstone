@@ -98,9 +98,6 @@ function UpdateUser() {
   function handleChange(evt) {
     const { name, value } = evt.target;
     setFormData((data) => ({ ...data, [name]: value }));
-    console.log(evt.target);
-    console.log(evt.target.name);
-    console.log(evt.target.value);
   }
 
   return (

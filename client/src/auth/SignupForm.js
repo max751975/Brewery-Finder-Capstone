@@ -1,23 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
-// import { useHistory } from "react-router-dom";
+import "../CSS/SignupForm.css";
+
 // import Alert from "../common/Alert";
 
 /** Signup form.
  *
  * Shows form and manages update to state on changes.
  * On submission:
- * - calls signup function prop
- * - redirects to /companies route
+ * - adds new user to the database
+ * - redirects to /login page
  *
  * Routes -> SignupForm -> Alert
  * Routed as /signup
  */
 
 function SignupForm() {
-  // const history = useHistory();
-
   const REGISTER_URL = "/auth/register";
   const initialState = {
     username: "",
@@ -39,15 +38,7 @@ function SignupForm() {
     userRef.current.focus();
   }, []);
 
-  console.debug(
-    "SignupForm",
-    "signup=",
-    typeof signup,
-    "formData=",
-    formData,
-    "formErrors=",
-    formErrors
-  );
+  console.debug("SignupForm::::", "formData=", formData);
 
   /** Handle form submit:
    
@@ -59,7 +50,7 @@ function SignupForm() {
     try {
       const response = await axios.post(REGISTER_URL, formData);
       const user = response.data.user;
-      console.log(JSON.stringify(response.status));
+      console.log("SignUp Form response::::::::::::", response);
       console.log(user);
 
       navigate("/login");
@@ -80,9 +71,9 @@ function SignupForm() {
 
   return (
     <div className="SignupForm">
-      <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-        <h2 className="mb-3">Sign Up</h2>
-        <div className="card">
+      <div className="SignupForm-container container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+        <h2 className="SignupForm-title mb-3">Sign Up</h2>
+        <div className="SignupForm-card card">
           <div className="card-body">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -161,6 +152,7 @@ function SignupForm() {
               ) : null} */}
 
               <button
+                // disabled={true}
                 type="submit"
                 className="btn btn-primary float-right mt-3"
                 onSubmit={handleSubmit}

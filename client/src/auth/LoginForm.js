@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import "../CSS/LoginForm.css";
 import Alert from "../common/Alert";
 
 const LOGIN_URL = "/auth/login";
@@ -16,7 +17,8 @@ const LoginForm = () => {
   const { auth, setAuth } = useAuth();
 
   const [formData, setFormData] = useState(initialState);
-  const [formErrors, setFormErrors] = useState([]);
+  // const [formErrors, setFormErrors] = useState([]);
+  const [errMsg, setErrMsg] = useState();
 
   const userRef = useRef();
   const errFef = useRef();
@@ -54,16 +56,17 @@ const LoginForm = () => {
       navigate("/user");
       setFormData(initialState);
     } catch (err) {
-      // if (!err?.response) {
-      //   console.log("No Server Response");
-      // }
-      // console.log(err);
-      setFormErrors(err);
-      console.debug("formErrors:::::::::::::::::::", formErrors.message);
-      if (formErrors.response.status === 400) {
-        alert(`${formErrors.message}: wrong username/password`);
+      console.log("Error:::::::::::::::::::", err.response.status);
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response.status === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg("Login Failed");
       }
-      setFormData(initialState);
+
       return;
     }
   }
@@ -77,9 +80,9 @@ const LoginForm = () => {
   return (
     <div className="LoginForm">
       <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-        <h3 className="mb-3">Log In</h3>
+        <h2 className="LoginForm-title mb-3">Log In</h2>
 
-        <div className="card">
+        <div className="LoginForm-card card">
           <div className="card-body">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -109,9 +112,9 @@ const LoginForm = () => {
                 />
               </div>
 
-              {formErrors?.length ? (
+              {/* {formErrors?.length ? (
                 <Alert type="danger" messages={formErrors.message} />
-              ) : null}
+              ) : null} */}
 
               <button
                 type="submit"

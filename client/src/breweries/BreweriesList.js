@@ -45,12 +45,6 @@ const BrweriesList = () => {
 
   console.log("Breweries:::::::::::::::::::------------------", breweries);
 
-  const handleEdit = (e) => {
-    console.log("You are editing brewery");
-    console.log(e);
-    console.log(e.target.parentElement);
-    console.log(e.target.parentElement.id);
-  };
   const handleDelete = (e) => {
     console.log("You are deleting brewery");
     console.log(e);

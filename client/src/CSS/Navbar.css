@@ -10,6 +10,7 @@
     hsl(43deg 56% 59%) 92%,
     hsl(43deg 75% 65%) 100%
   );
+  max-height: 6vh;
 }
 
 .navbar-brand {

@@ -22,6 +22,7 @@ import CreateBrewery from "./breweries/CreateBrewery";
 import UpdateBrewery from "./breweries/UpdateBrewery";
 import UserBreweries from "./users/UserBreweries";
 import AddBrewery from "./users/AddBrewery";
+import RegisterForm from "./auth/RegisterForm";
 
 function App() {
   return (
@@ -29,7 +30,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="register" element={<SignupForm />}></Route>
+          {/* <Route path="register" element={<SignupForm />}></Route> */}
+          <Route path="register" element={<RegisterForm />}></Route>
           <Route path="login" element={<LoginForm />}></Route>
           <Route path="/" element={<Home />}></Route>
 

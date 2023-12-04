@@ -88,10 +88,6 @@ router.delete("/:id", ensureIsAdmin, async (req, res, next) => {
 
 router.get("/:id/breweries", ensureLoggedIn, async (req, res, next) => {
   try {
-    console.log("---------------------------------------------------------");
-    console.log("user/:id/breweries  request.body: ", req.body);
-    console.log("user/:id/breweries  request.headers: ", req.headers);
-    console.log("---------------------------------------------------------");
     const results = await db.query(
       `SELECT u.id, u.username, b.id as brewery_id, b.name as brewery_name, b.location
         FROM users AS u
@@ -103,8 +99,6 @@ router.get("/:id/breweries", ensureLoggedIn, async (req, res, next) => {
       [req.params.id]
     );
 
-    // console.log(req.user);
-    // console.log(results.rows);
     const { id, username } = results.rows[0];
     console.log(results.rows);
     let breweries = [];

@@ -5,14 +5,12 @@ import useAuth from "../hooks/useAuth";
 
 import Alert from "../common/Alert";
 
-/** New user form.
+/** New brewery form.
  *
  * Shows form and manages update to state on changes.
  * On submission:
- * - creates new user in the database
- * - redirects to /users route
+ * - creates new brewery in the database
  *
- 
  */
 
 function CreateBrewery() {

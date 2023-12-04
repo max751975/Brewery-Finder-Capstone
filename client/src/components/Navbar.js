@@ -11,7 +11,8 @@ const Navbar = () => {
   return (
     <nav className="Navbar-navbar navbar sticky-top navbar-expand-lg">
       <div className="Navbar-container container-fluid">
-        <NavLink to={auth.user ? "/user" : "/"} className="navbar-brand">
+        {/* <NavLink to={auth.user ? "/user" : "/"} className="navbar-brand"> */}
+        <NavLink to="/" className="navbar-brand nav-link">
           <img
             src="./images/beer_logo.svg"
             alt="Logo"

@@ -21,11 +21,14 @@ const Home = () => {
 
   useEffect(() => {
     setAuth({ user, token });
-  }, [setAuth, user, token]);
+  }, []);
   console.log("Home::::::::::: auth:", auth);
-  if (auth.user) {
-    navigate("/user");
-  }
+
+  useEffect(() => {
+    if (auth?.user) {
+      navigate("/user");
+    }
+  }, []);
 
   async function handleSubmit(evt) {
     evt.preventDefault();
@@ -46,10 +49,10 @@ const Home = () => {
     <>
       <h1 className="header mt-3">Welcome to Brewery Finder</h1>
       <div className="Home-finder-container container">
-        <h3>Looking for breweries in your area?</h3>
+        <h4>Looking for breweries in your area?</h4>
         <form onSubmit={handleSubmit}>
           <div className="Home-form-group form-group">
-            <label htmlFor="zip">Enter your zip-code</label>
+            <label htmlFor="zip">5-digit zip-code:</label>
             <input
               type="text"
               id="zip"
@@ -61,7 +64,7 @@ const Home = () => {
               required
             />
           </div>
-          <button className="btn btn-success mt-2" onSubmit={handleSubmit}>
+          <button className="btn btn-success mb-1" onSubmit={handleSubmit}>
             Find Breweries
           </button>
         </form>
@@ -110,7 +113,7 @@ const Home = () => {
           )}
         </div>
         <div className="Home-links container mt-5">
-          <h3>Need more?.. </h3>
+          <h5>Need more?.. </h5>
           <Link to="/login">Login</Link>
           <br />
           <Link to="/register">Sign Up</Link>

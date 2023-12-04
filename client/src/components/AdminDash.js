@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import axios from "../api/axios";
+import React from "react";
+import { Link } from "react-router-dom";
+
 import "../CSS/AdminDash.css";
 
 const AdminDash = () => {
-  const { auth } = useAuth();
-  const navigate = useNavigate();
-
   return (
     <>
       <div className="AdminDash-container">

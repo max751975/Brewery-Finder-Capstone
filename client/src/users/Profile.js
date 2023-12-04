@@ -34,7 +34,7 @@ const Profile = () => {
       }
     };
     getUserById();
-  }, [auth.token]);
+  }, []);
 
   const handleDelete = (id) => {
     const confirm = window.confirm(`Do you want to delete user with id ${id}?`);

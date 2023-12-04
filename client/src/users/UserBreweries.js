@@ -43,7 +43,7 @@ const UserBreweries = () => {
       }
     };
     fetchData();
-  }, [auth.token]);
+  }, []);
 
   console.log("Data:::::::::::::::::::------------------", data);
 

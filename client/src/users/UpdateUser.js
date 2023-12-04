@@ -58,21 +58,11 @@ function UpdateUser() {
       }
     };
     getUserById();
-  }, [auth.token]);
+  }, []);
 
   useEffect(() => {
     userRef.current.focus();
   }, []);
-
-  //   console.debug(
-  //     "UpdateUser",
-  //     "new user form=",
-  //     typeof signup,
-  //     "formData=",
-  //     formData,
-  //     "formErrors=",
-  //     formErrors
-  //   );
 
   /** Handle form submit: */
 
@@ -81,8 +71,8 @@ function UpdateUser() {
 
     try {
       const response = await axios.patch(END_POINT, formData, config);
-      const user = response.data.user;
-
+      // const user = response.data.user;
+      console.debug(response.data);
       navigate(`/users/${userId}`);
     } catch (err) {
       //   if (!err?.response) {
@@ -98,22 +88,32 @@ function UpdateUser() {
   function handleChange(evt) {
     const { name, value } = evt.target;
     setFormData((data) => ({ ...data, [name]: value }));
+    console.log(evt.target);
+    console.log(evt.target.name);
+    console.log(evt.target.value);
   }
 
   return (
     <>
       <div className="UpdateUser">
         <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-          <h2 className="mb-3">Update user</h2>
+          <h1 className="mb-3">Update user</h1>
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-end m-2">
-                <Link to="/users" className="btn btn-secondary btn-sm mt-2">
+                <Link
+                  to={`/users/${userId}`}
+                  className="btn btn-secondary btn-sm mt-2"
+                >
                   Cancel
                 </Link>
               </div>
               <form onSubmit={handleSubmit}>
-                {/* <div className="form-group">
+                {/* <div
+                  className={
+                    auth?.user?.is_admin ? `form-group` : "form-group hidden"
+                  }
+                >
                   <label>Username*</label>
                   <input
                     type="text"
@@ -121,22 +121,26 @@ function UpdateUser() {
                     name="username"
                     ref={userRef}
                     className="form-control"
-                    value={formData.username}
+                    value={formData?.username}
                     onChange={handleChange}
                     autoComplete="off"
-                    required
+                    
                   />
                 </div>
-                <div className="form-group">
+                <div
+                  className={
+                    auth?.user?.is_admin ? `form-group` : "form-group hidden"
+                  }
+                >
                   <label>Password*</label>
                   <input
                     type="password"
                     name="password"
                     className="form-control"
-                    value={formData.password}
+                    value={formData?.password}
                     onChange={handleChange}
                     autoComplete="off"
-                    required
+                    
                   />
                 </div> */}
 

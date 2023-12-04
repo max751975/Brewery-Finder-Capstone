@@ -26,6 +26,7 @@ html {
 }
 
 body {
+  overflow-y: hidden;
   min-height: 100vh;
   /* background-color: dodgerblue; */
   background-image: url("./images/brewery-print-shoppe-background-keg-beer.jpg");
@@ -34,6 +35,14 @@ body {
   background-repeat: no-repeat;
   background-color: rgba(77, 82, 86, 0.5);
   background-blend-mode: lighten;
+}
+
+.card {
+  background-color: antiquewhite;
+}
+
+.hidden {
+  display: none;
 }
 
 a {

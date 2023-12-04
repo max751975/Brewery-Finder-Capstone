@@ -5,11 +5,11 @@
  */
 
 import React, { useState, useEffect } from "react";
-import BreweryCard from "./BreweryCard";
+
 import LoadingSpinner from "../common/LoadingSpinner";
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../CSS/BreweriesList.css";
 
 const BrweriesList = () => {
@@ -52,21 +52,6 @@ const BrweriesList = () => {
     console.log(e.target.parentElement.id);
   };
 
-  //   return (
-  //     <div className="BreweriesList col-md-8 offset-md-2">
-  //       <h1>Breweries List</h1>
-  //       <div className="BreweriesList-list">
-  //         {breweries.map((b) => (
-  //           <BreweryCard
-  //             key={b.id}
-  //             breweryId={b.id}
-  //             name={b.name}
-  //             location={b.location}
-  //           />
-  //         ))}
-  //       </div>
-  //     </div>
-  //   );
   return (
     <>
       <h3 className="BreweriesList-title title mt-2">All Breweries</h3>

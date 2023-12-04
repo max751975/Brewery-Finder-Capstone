@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import "../CSS/UserPage.css";
@@ -36,25 +36,6 @@ const UserPage = () => {
           </div>
           <div className="col-md-8">
             <div className="card-body">
-              {/* <h5 className="card-title">Profile</h5>
-              <ul className="UserPage-list-group list-group list-group-flush">
-                <li className="list-group-item">
-                  <b>First Name: </b>
-                  {auth?.user?.first_name}
-                </li>
-                <li className="list-group-item">
-                  <b>Last Name:</b> {auth?.user?.last_name}
-                </li>
-                <li className="list-group-item">
-                  <b>E-mail:</b> {auth?.user?.email}
-                </li>
-                <li className="list-group-item">
-                  <b>Location:</b> {auth?.user?.location}
-                </li>
-                <li className="list-group-item">
-                  <b>{auth?.user?.is_admin ? "Admin" : ""}</b>
-                </li>
-              </ul> */}
               <div>
                 <button
                   className="btn btn-large btn-primary"

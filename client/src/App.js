@@ -1,17 +1,17 @@
 import "./CSS/App.css";
-import LoginForm from "./auth/LoginForm";
-import SignupForm from "./auth/SignupForm";
-import { Routes, Route, useNavigate } from "react-router-dom";
+
+import { Routes, Route } from "react-router-dom";
 
 import Layout from "./components/Layout";
+
 import Home from "./components/Home";
+import LoginForm from "./auth/LoginForm";
 import Navbar from "./components/Navbar";
 import AdminDash from "./components/AdminDash";
 import UserPage from "./components/UserPage";
 
-// import BreweryList from "./components/BreweryList";
 import BreweriesList from "./breweries/BreweriesList";
-// import Brewery from "./components/Brewery";
+
 import BreweryDetail from "./breweries/BreweryDetail";
 
 import UserList from "./users/UserList";
@@ -23,6 +23,9 @@ import UpdateBrewery from "./breweries/UpdateBrewery";
 import UserBreweries from "./users/UserBreweries";
 import AddBrewery from "./users/AddBrewery";
 import RegisterForm from "./auth/RegisterForm";
+import Missing from "./components/Missing";
+import Unauthorized from "./components/Unathorized";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   return (
@@ -30,40 +33,43 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/* <Route path="register" element={<SignupForm />}></Route> */}
-          <Route path="register" element={<RegisterForm />}></Route>
-          <Route path="login" element={<LoginForm />}></Route>
-          <Route path="/" element={<Home />}></Route>
+          {/* Public routes */}
 
-          <Route path="admin" element={<AdminDash />}></Route>
-          <Route path="user" element={<UserPage />}></Route>
-          {/* <Route path="user/breweries" element={<BreweryList />}></Route> */}
+          <Route path="register" element={<RegisterForm />} />
+          <Route path="login" element={<LoginForm />} />
+          <Route path="/" element={<Home />} />
+          <Route path="unauthorized" element={<Unauthorized />} />
 
-          <Route path="users" element={<UserList />}></Route>
-          <Route path="users/new" element={<CreateUser />}></Route>
-          <Route path="users/:userId" element={<Profile />}></Route>
-          <Route path="users/:userId/update" element={<UpdateUser />}></Route>
-          <Route
-            path="users/:userId/breweries"
-            element={<UserBreweries />}
-          ></Route>
-          <Route
-            path="users/:userId/breweries/new"
-            element={<AddBrewery />}
-          ></Route>
+          <Route element={<RequireAuth allowedTypes={["user", "admin"]} />}>
+            {/* Logged In routes */}
 
-          <Route path="breweries" element={<BreweriesList />}></Route>
-          <Route path="breweries/new" element={<CreateBrewery />}></Route>
-          <Route
-            path="breweries/:breweryId"
-            element={<BreweryDetail />}
-          ></Route>
-          <Route
-            path="breweries/:breweryId/update"
-            element={<UpdateBrewery />}
-          ></Route>
+            <Route path="user" element={<UserPage />} />
+            <Route path="users/:userId" element={<Profile />} />
+            <Route path="users/:userId/update" element={<UpdateUser />} />
+            <Route path="users/:userId/breweries" element={<UserBreweries />} />
+            <Route
+              path="users/:userId/breweries/new"
+              element={<AddBrewery />}
+            />
+            <Route path="breweries/:breweryId" element={<BreweryDetail />} />
+            <Route
+              path="breweries/:breweryId/update"
+              element={<UpdateBrewery />}
+            />
+          </Route>
+          <Route element={<RequireAuth allowedTypes={["admin"]} />}>
+            {/* Admin routes */}
 
-          {/* <Route path="brewery" element={<Brewery />}></Route> */}
+            <Route path="admin" element={<AdminDash />} />
+            <Route path="/users" element={<UserList />} />
+            <Route path="users/new" element={<CreateUser />} />
+
+            <Route path="breweries" element={<BreweriesList />} />
+            <Route path="breweries/new" element={<CreateBrewery />} />
+          </Route>
+
+          {/* Catch all */}
+          <Route path="*" element={<Missing />} />
         </Route>
       </Routes>
     </>

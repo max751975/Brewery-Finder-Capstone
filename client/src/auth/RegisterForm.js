@@ -29,11 +29,9 @@ const RegisterForm = () => {
 
   const [formData, setFormData] = useState(initialState);
 
-  //   const [username, setUsername] = useState("");
   const [validUsername, setValidUsername] = useState(false);
   const [usernameFocus, setUsernameFocus] = useState(false);
 
-  //   const [password, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
 
